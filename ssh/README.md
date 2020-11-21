@@ -4,7 +4,7 @@ ssh or Secure Shell the every day tool for any person that want to control compu
 ## Creating your ssh keys
 ```bash
 ssh-keygen -t rsa -C "key for github" -f ~/.ssh/my_github_key
-# -C is a command to add to the key so you can differentiate them 
+# -C is a comment to add to the key so you can differentiate them 
 # -f is the path to the output keys, once created you will have a <key_name> and <key_name>.pub files, first one if the private.
 ``` 
 
