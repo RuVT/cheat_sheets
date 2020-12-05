@@ -16,10 +16,10 @@ After selecting a secction in *visual* or *visual block* mode, you can press `sh
 
 Press `Esc` to make sure you are in command mode, then press one of this commands:
 - Long:
-	-- `:q!` to exit without saving the file 
-	-- `:wq` to save and exit
+	- `:q!` to exit without saving the file 
+	- `:wq` to save and exit
 - Short:
-	-- Hold `shift`, press `Z` then `Q` to exit without saving
-	-- Hold `shift`, press `Z` then `Z` to save and exit
+	- Hold `shift`, press `Z` then `Q` to exit without saving
+	- Hold `shift`, press `Z` then `Z` to save and exit
 
 
