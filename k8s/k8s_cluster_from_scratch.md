@@ -60,4 +60,8 @@ sudo systemctl start containerd
 kubeadm init --apiserver-advertise-address=<IP> --pod-network-cidr=10.123.0.0/16
 ```
 
+## Join workers with kubeadm
+```
+kubeadm join <IP>:6443 --token zr...6 --discovery-token-ca-cert-hash sha256:df8...4
+```
 
