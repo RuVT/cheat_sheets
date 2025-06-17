@@ -19,6 +19,13 @@ EOF
 sudo sysctl --system
 ```
 
+## Disable appmonitor
+```
+# This service monitor and block any call to an app that does not have a rule
+sudo systemctl stop apparmor
+sudo systemctl disable apparmor
+```
+
 ## Install packages
 
 ```
