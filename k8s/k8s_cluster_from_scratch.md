@@ -49,7 +49,8 @@ sudo systemctl start containerd
 ## Init cluster control-plane wiht kubeadm
 ```
 # copy the kubeadm join command from the next output
-kubeadm init
+# kubeadm init
+kubeadm init --apiserver-advertise-address=<IP> --pod-network-cidr=10.123.0.0/16
 ```
 
 
