@@ -58,6 +58,11 @@ sudo systemctl start containerd
 # copy the kubeadm join command from the next output
 # kubeadm init
 sudo kubeadm init --apiserver-advertise-address=<IP> --pod-network-cidr=10.123.0.0/16
+
+# add the kubectl config to the ~/.kube
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
 ```
 
 ## Join workers with kubeadm
