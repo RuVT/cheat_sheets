@@ -10,6 +10,10 @@ vim /etc/fstab
 
 ## Enable ipv4 forwarding
 ```
+# loading needed kernel modules 
+sudo modprobe bridge
+sudo modprobe br_netfilter
+
 # Set config to 1, requirement by kubeadm
 cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
 net.bridge.bridge-nf-call-iptables = 1
@@ -88,13 +92,9 @@ sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 ```
 
-## Add CNI Network Pluging
+## Add Flannel CNI Network Pluging
 ```
-sudo modprobe bridge
-sudo modprobe br_netfilter
-
 kubectl apply -f https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml
-
 ```
 
 
