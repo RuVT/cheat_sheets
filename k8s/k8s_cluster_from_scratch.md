@@ -12,6 +12,8 @@ vim /etc/fstab
 ```
 # Set config to 1, requirement by kubeadm
 cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
+net.bridge.bridge-nf-call-iptables = 1
+net.bridge.bridge-nf-call-ip6tables = 1
 net.ipv4.ip_forward = 1
 EOF
 
@@ -48,6 +50,17 @@ sudo apt update
 # Install packages
 sudo apt-get install -y kubelet kubeadm kubectl containerd
 
+# Set containerd cgroup config as systemd
+sudo mkdir /etc/containerd
+containerd config default | sudo tee /etc/containerd/config.toml
+sudo vim /etc/containerd/config.toml
+# update this config
+# [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]
+#            ...
+#            SystemdCgroup = true
+#
+
+
 # Start container runntime
 sudo systemctl enable containerd
 sudo systemctl start containerd
@@ -57,13 +70,33 @@ sudo systemctl start containerd
 ```
 # copy the kubeadm join command from the next output
 # kubeadm init
-sudo kubeadm init --apiserver-advertise-address=<IP> --pod-network-cidr=10.123.0.0/16
+echo "
+# kubeadm-config.yaml
+kind: ClusterConfiguration
+apiVersion: kubeadm.k8s.io/v1beta4
+kubernetesVersion: v1.21.0
+---
+kind: KubeletConfiguration
+apiVersion: kubelet.config.k8s.io/v1beta1
+cgroupDriver: systemd
+" > /tmp/kubeadm-config.yaml
+sudo kubeadm init --apiserver-advertise-address=<IP> --pod-network-cidr=10.244.0.0/16
 
 # add the kubectl config to the ~/.kube
 mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 ```
+
+## Add CNI Network Pluging
+```
+sudo modprobe bridge
+sudo modprobe br_netfilter
+
+kubectl apply -f https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml
+
+```
+
 
 ## Join workers with kubeadm
 ```
