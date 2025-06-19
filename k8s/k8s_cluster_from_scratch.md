@@ -10,9 +10,15 @@ vim /etc/fstab
 
 ## Enable ipv4 forwarding
 ```
-# loading needed kernel modules 
+# Loading needed kernel modules
 sudo modprobe bridge
 sudo modprobe br_netfilter
+
+# Adding config to load modules on boot
+cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
+bridge
+br_netfilter
+EOF
 
 # Set config to 1, requirement by kubeadm
 cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
